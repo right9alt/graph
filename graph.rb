@@ -1,6 +1,7 @@
 class Graph
   attr_accessor :vertices, :oriented, :name, :ves
   INF = 1.0/0.0
+
   #Конструктор по умолчанию
   def initialize(name, orient = false, ves = false, file_path = nil)
     @vertices = []
@@ -35,6 +36,7 @@ class Graph
       end
     end
   end
+
   #Метод добавления вершины
   def add_vertex(name)
     flag = true
@@ -53,6 +55,7 @@ class Graph
       puts "Вершина с таким именем уже существует"
     end
   end
+
   #Метод добавления ребра
   def add_edge(first_vertex, second_vertex, weight = nil)
     f1 = false
@@ -89,6 +92,7 @@ class Graph
       puts "Одна из вершин не существует"
     end
   end
+
   #Метод удаления ребра
   def delete_edge(first_vertex, second_vertex)
     f1 = false
@@ -137,6 +141,7 @@ class Graph
       return puts "<-------------Одна из вершин отсутствует в графе"
     end
   end
+
   #Метод удаления вершины
   def delete_vertex(vertex)
     vertices.each do |v|
@@ -144,6 +149,7 @@ class Graph
     end
     vertices.delete_if {|e| e[:name] == vertex}
   end
+
   #Вывод списка смежности
   def vivod
     vertices.each do |v|
@@ -154,10 +160,7 @@ class Graph
       puts " }"
     end
   end
-  #Смена имени графа
-  def change_name(name)
-  end
-
+  #какие-то номера с курса по графам
   def a1n19
     #Определить, существует ли вершина, в которую есть дуга как из вершины u, так и из вершины v. Вывести такую вершину.
     print "Введите u и v: "
@@ -229,7 +232,7 @@ class Graph
       end
     end
   end
-
+#вспомогательный метод
   def FindVertexbyIndex(name)
     vertices.each_with_index do |v, i|
       if name == v[:name].to_i
@@ -274,29 +277,6 @@ class Graph
       end
     end
     return dist_array, vertex_array
-    # bfs_result = []
-    # visited_vertices = Array.new(vertices.count, false)
-    # v_queue = [] # working queue
-    # t_queue = [] # temp queue used for dumping neighbours
-    # t_queue << vertices[_start_index]
-    # visited_vertices[_start_index] = true
-    # until t_queue.empty?
-    #   v_queue = t_queue
-    #   t_queue = []
-    #   until v_queue.empty?
-    #     node = v_queue.shift
-    #     bfs_result << node[:name]
-    #     node[:neighbours].each do |nb|
-    #       vind = get_index_by_name(nb[:neighbour])
-    #       next if visited_vertices[vind]
-    #       # else
-    #       t_queue.unshift(vertices[vind])
-    #       visited_vertices[vind] = true
-    #     end
-    #   end
-    # end
-    # return bfs_result
-
   end
 
   def dva36()
@@ -310,7 +290,7 @@ class Graph
     return radius
   end
 
-
+#вспомогательный метод
   def array_contains_str(_arr, _ind, _str)
     _arr.each do |a|
       if a[_ind] == _str || a[_ind] == _str.reverse
@@ -332,7 +312,7 @@ class Graph
     end
     return array.sort_by {|a| a[1]}
   end
-  
+  #алгоритм Крускала
   def kruskal
     ma = make_edges_array
     parent = Array.new(vertices.length-1)
@@ -350,6 +330,7 @@ class Graph
     return parent
   end
 
+  #Алгоритм Дейкстры
   def dijkstra(_start_index)
     # set up variables
     count = vertices.length
@@ -382,6 +363,8 @@ class Graph
     end
     return distances
   end
+
+  #Алгоритм ФлойдаВаршала
   def floyd_warshall
     count = vertices.length
     distances = Array.new(count){Array.new(count, INF)}
@@ -405,6 +388,8 @@ class Graph
     end
     return distances
   end
+
+  #Алгоритм Белмана Форда
   def bellman_ford(_start_index)
     count = vertices.length
     isNegCycle = false
@@ -440,7 +425,8 @@ class Graph
     end
     return [isNegCycle, distances]
   end
-  
+
+  #хелпер метод ФордФулкерсон
   def ff_helper(_used, _current_index, _end_index, _max_flow)
     count = vertices.length
     return _max_flow if _current_index == _end_index
@@ -463,6 +449,8 @@ class Graph
     end
     return 0
   end
+
+  #алгоритм ФордаФулкерсона
   def ford_fulkerson(_start_index, _end_index)
     flow = 0
     count = vertices.length
@@ -474,7 +462,7 @@ class Graph
     end
   end
   
-
+#main
   def interface
     for i in (1..10000) do
       puts "<------Interface-------->"
@@ -652,7 +640,7 @@ class Graph
         k = ford_fulkerson(index_of("0"), index_of("5"))
         puts "The maximum flow in this graph is: #{k}"
       else
-        puts "Idiot, 1 ili 8, po russki napisano"
+        puts "incorrect number"
       end
     end
   end
@@ -733,39 +721,3 @@ for i in (1..10000) do
     GraphArray[id].interface
   end
 end
-
-
-# g.add_vertex(1)
-
-# puts "<===>"
-# puts "<===>"
-# g.add_vertex(2)
-# g.add_edge(1, 2)
-
-# puts g.vertices
-# puts "<===>"
-# g.vertices.select do |e|
-#   if e[:name] == 1
-#       if e[:neighbors].reject! {|p| p[:neighbor] == 2}
-#       end
-#   end
-# end
-# puts "<===>"
-# puts g.vertices
-# g.add_vertex(2)
-# g.add_vertex(3)
-# g.add_vertex(4)
-
-# g.add_edge(1, 2)
-# g.add_edge(0, 2, 15)
-# g.add_edge(1, 2, 25)
-# g.add_edge(3, 4)
-# g.add_edge(1, 4)
-
-# g.delete_edge(1, 2)
-# g.delete_edge(0, 1)
-
-# puts g.vertices
-
-# g.vivod
-
